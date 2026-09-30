@@ -1,0 +1,81 @@
+@startuml SmartLibrary_DiagramaClases
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+hide circle
+
+interface Notificable {
+  + notificar(mensaje : String) : void
+}
+
+abstract class Usuario {
+  - identificacion : String
+  - nombre : String
+  - correo : String
+  + getIdentificacion() : String
+  + getNombre() : String
+  + getCorreo() : String
+  + {abstract} descripcionRol() : String
+}
+
+class Estudiante {
+  - codigoEstudiantil : String
+  - programaAcademico : String
+  + descripcionRol() : String
+  + notificar(mensaje : String) : void
+}
+
+class Bibliotecario {
+  - codigoEmpleado : String
+  - turno : String
+  + descripcionRol() : String
+  + notificar(mensaje : String) : void
+}
+
+class Libro {
+  - isbn : String
+  - titulo : String
+  - autor : String
+  + registrarEjemplar(codigoBarras : String) : Ejemplar
+  + getEjemplares() : List
+}
+
+class Ejemplar {
+  - codigoBarras : String
+  - disponible : boolean
+  + estaDisponible() : boolean
+  + marcarPrestado() : void
+  + marcarDisponible() : void
+}
+
+class Prestamo {
+  - fechaPrestamo : LocalDate
+  - fechaPrevistaDevolucion : LocalDate
+  + renovar(nuevaFecha : LocalDate) : void
+  + cantidadRenovaciones() : int
+}
+
+class Renovacion {
+  - fechaRenovacion : LocalDate
+  - fechaAnterior : LocalDate
+  - nuevaFecha : LocalDate
+}
+
+' ---------- Herencia (es-un) ----------
+Usuario <|-- Estudiante
+Usuario <|-- Bibliotecario
+
+' ---------- Realizacion de la interfaz ----------
+Notificable <|.. Estudiante
+Notificable <|.. Bibliotecario
+
+' ---------- Composicion ----------
+Libro     "1" *-- "0..*" Ejemplar   : contiene >
+Prestamo  "1" *-- "0..*" Renovacion : registra >
+
+' ---------- Asociacion ----------
+Estudiante "1"    -- "0..*" Prestamo : solicita >
+Prestamo   "0..*" --> "1"   Ejemplar : presta >
+
+@enduml

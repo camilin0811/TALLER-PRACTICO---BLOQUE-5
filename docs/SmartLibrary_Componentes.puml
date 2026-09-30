@@ -1,0 +1,34 @@
+@startuml SmartLibrary_Componentes
+
+skinparam componentStyle uml2
+skinparam shadowing false
+
+component "Gestion de Usuarios"  as GU
+component "Gestion de Catalogo"  as GC
+component "Gestion de Prestamos" as GP
+component "Gestion de Reservas"  as GR
+
+interface "IUsuarios"  as IU
+interface "ICatalogo"  as IC
+interface "IPrestamos" as IP
+
+' ---------- Interfaces PROVISTAS ----------
+GU -- IU
+GC -- IC
+GP -- IP
+
+' ---------- Interfaces REQUERIDAS ----------
+GP ..> IU : <<requiere>>
+GP ..> IC : <<requiere>>
+GR ..> IU : <<requiere>>
+GR ..> IC : <<requiere>>
+GR ..> IP : <<requiere>>
+
+note bottom of GP
+  Requiere IUsuarios para validar
+  al estudiante y notificarlo.
+  Requiere ICatalogo para verificar
+  disponibilidad del ejemplar.
+end note
+
+@enduml

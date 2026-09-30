@@ -1,0 +1,17 @@
+# Compilados de Java
+bin/
+out/
+*.class
+
+# Carpetas de IDE
+.vscode/
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store

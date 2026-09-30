@@ -1,0 +1,51 @@
+@startuml SmartLibrary_HerenciaEInterfaz
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide circle
+
+interface Notificable {
+  + notificar(mensaje : String) : void
+}
+
+abstract class Usuario {
+  - identificacion : String
+  - nombre : String
+  - correo : String
+  + getNombre() : String
+  + {abstract} descripcionRol() : String
+}
+
+class Estudiante {
+  - codigoEstudiantil : String
+  - programaAcademico : String
+  + descripcionRol() : String
+  + notificar(mensaje : String) : void
+}
+
+class Bibliotecario {
+  - codigoEmpleado : String
+  - turno : String
+  + descripcionRol() : String
+  + notificar(mensaje : String) : void
+}
+
+Usuario <|-- Estudiante
+Usuario <|-- Bibliotecario
+
+Notificable <|.. Estudiante
+Notificable <|.. Bibliotecario
+
+note right of Notificable
+  R13: solo ALGUNOS usuarios
+  reciben notificaciones.
+  Por eso el metodo NO se declara
+  en la clase Usuario.
+end note
+
+note bottom of Usuario
+  Abstracta: en SmartLibrary
+  nadie es "solo usuario".
+end note
+
+@enduml
